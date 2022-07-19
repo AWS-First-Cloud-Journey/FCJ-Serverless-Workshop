@@ -12,50 +12,12 @@ class UploadBook extends Component {
             bookname: "",
             author: "",
             description: "",
-            fileToUpload: undefined,
-            // uploadSuccess: undefined,
-            // error: undefined
+            fileToUpload: undefined
         };
         this.handleValidation = this.handleValidation.bind(this);
     }
     redirectPage = () => {
         this.props.navigate('/');
-    }
-    // uploadBook = () => {
-    //     axios({
-    //         method: 'post',
-    //         url: config.APP_API_URL,
-    //         data: {
-    //             id : this.state.id,
-    //             name: this.state.bookname,
-    //             author: this.state.author,
-    //             description: this.state.description,
-    //             image: this.state.fileToUpload 
-    //         },
-    //         headers: { "Content-Type": "multipart/form-data" }
-    //     })
-    //     .then(res => {
-    //         this.setState({
-    //             uploadSuccess: "Book upload successfull",
-    //             error: undefined
-    //         });
-    //     })
-    //     .catch(err => {
-    //         this.setState({
-    //             error: "Error Occured while uploading the book",
-    //             uploadSuccess: undefined
-    //         });
-    //     });
-        
-    // }
-
-    restBookInfor = () => {
-        this.setState({ 
-            id: "",
-            bookname: "",
-            author: "",
-            description: ""
-        })
     }
 
     async handleValidation(e) {
