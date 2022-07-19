@@ -12,9 +12,7 @@ class UpdateBook extends Component {
                 name: "",
                 author: "",
                 description: "",
-                fileToUpdate: undefined,
-                // updateSuccess: undefined,
-                // error: undefined
+                fileToUpdate: undefined
         }
     }
 
@@ -24,63 +22,6 @@ class UpdateBook extends Component {
         this.setState({ author: this.props.inforBook.author});
         this.setState({ description: this.props.inforBook.description});
     }
-
-    // updateBook = () => {
-    //     let content_type = "";
-    //     let updateImage = undefined;
-    //     if (this.state.fileToUpdate){
-    //         content_type = "multipart/form-data"
-    //         updateImage = this.state.fileToUpdate
-    //     }
-    //     else
-    //     {
-    //         content_type = "application/json"
-    //         updateImage = this.props.inforBook.image
-    //     }
-    //     axios({
-    //         method: 'post',
-    //         url: config.APP_API_URL,
-    //         data: {
-    //             id : this.state.id,
-    //             name: this.state.name,
-    //             author: this.state.author,
-    //             description: this.state.description,
-    //             image : updateImage
-    //         },
-    //         headers: { "Content-Type": content_type }
-    //     })
-    //     .then(res => {
-    //         this.setState({
-    //             updateSuccess: "Book update successfull",
-    //             error: undefined
-    //         });
-    //     })
-    //     .catch(err => {
-    //         this.setState({
-    //             error: "Error Occured while update the book",
-    //             updateSuccess: undefined
-    //         });
-    //     });
-    // }
-
-    // deleteBook = () => {
-    //     axios({
-    //         method: 'delete',
-    //         url: `${config.APP_API_URL}/${this.props.inforBook.id}`,
-    //     })
-    //     .then(res => {
-    //         this.setState({
-    //             updateSuccess: "Book delete successfull",
-    //             error: undefined
-    //         });
-    //     })
-    //     .catch(err => {
-    //         this.setState({
-    //             error: "Error Occured while update the book",
-    //             updateSuccess: undefined
-    //         });
-    //     });
-    // }
     
     redirectPage = () => {
         this.props.navigate('/');
