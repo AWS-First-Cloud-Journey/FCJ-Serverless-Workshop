@@ -31,14 +31,6 @@ class Mainpage extends Component {
         this.props.navigate('/update');
     };
     componentDidMount() {
-        // await fetch("https://5vw2ufurrk.execute-api.us-east-2.amazonaws.com/staging/books", {
-        // })
-        // .then(response => response.json())
-        // .then(response => {
-        //     this.setState({
-        //         books: response
-        //     })
-        // })
         axios({
             method: 'get',
             url: config.APP_API_URL,
