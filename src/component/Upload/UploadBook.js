@@ -11,6 +11,8 @@ class UploadBook extends Component {
             id : "",
             bookname: "",
             author: "",
+            category: "",
+            price: "",
             description: "",
             fileToUpload: undefined
         };
@@ -32,11 +34,12 @@ class UploadBook extends Component {
             try{
                 const response = await axios({
                     method: 'post',
-                    url: config.APP_API_URL,
+                    url: `${config.APP_API_BOOKS_URL}/books`,
                     data: {
                         id : this.state.id,
                         name: this.state.bookname,
                         author: this.state.author,
+                        price: this.state.price,
                         description: this.state.description,
                         image: this.state.fileToUpload 
                     },
@@ -78,6 +81,14 @@ class UploadBook extends Component {
                 <div className="mb-3">
                     <label for="exampleFormControlInput1" className="form-label">Author</label>
                     <input type="text" onChange={(e) => this.setState({ author: e.target.value })} value={this.state.author} className="form-control" placeholder="Author book"></input>
+                </div>
+                <div className="mb-3">
+                    <label for="exampleFormControlInput1" className="form-label">Category</label>
+                    <input type="text" onChange={(e) => this.setState({ category: e.target.value })} value={this.state.category} className="form-control" placeholder="Category"></input>
+                </div>
+                <div className="mb-3">
+                    <label for="exampleFormControlInput1" className="form-label">Price</label>
+                    <input type="text" onChange={(e) => this.setState({ price: e.target.value })} value={this.state.price} className="form-control" placeholder="USD"></input>
                 </div>
                 <div className="mb-3">
                     <label for="exampleFormControlTextarea1" className="form-label">Description</label>

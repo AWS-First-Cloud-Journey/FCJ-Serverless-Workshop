@@ -1,61 +1,52 @@
-import React, {Component} from 'react'
-import { useNavigate } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.css';
+import React from 'react'
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 import config from '../../config'
 
-class UpdateBook extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-                id: "",
-                name: "",
-                author: "",
-                description: "",
-                fileToUpdate: undefined
-        }
+function UpdateBook(){
+    const location = useLocation();
+    const [id, setId] = React.useState(location.state.id);
+    const [name, setName] = React.useState(location.state.name);
+    const [author, setAuthor] = React.useState(location.state.author);
+    const [price, setPrice] = React.useState(location.state.price);
+    const [description, setDescription] = React.useState(location.state.description);
+    const [fileToUpdate, setFileToUpdate] = React.useState(undefined)
+    const navigate = useNavigate();
+    //console.log(location.state)
+    const redirectPage = () => {
+        navigate('/admin');
     }
 
-    componentDidMount() {
-        this.setState({ id: this.props.inforBook.id});
-        this.setState({ name: this.props.inforBook.name});
-        this.setState({ author: this.props.inforBook.author});
-        this.setState({ description: this.props.inforBook.description});
-    }
-    
-    redirectPage = () => {
-        this.props.navigate('/');
-    }
-
-    handleUpdateBook = async (e) => {
+    async function handleUpdateBook(e) {
         e.preventDefault();
 
         let formIsValid = true;
-        if (!this.state.id || !this.state.name || !this.state.author){
+        if (!id || !name || !author){
             formIsValid = false;
         }
 
         if (formIsValid){
             let content_type = "";
             let updateImage = undefined;
-            if (this.state.fileToUpdate){
+            if (fileToUpdate){
                 content_type = "multipart/form-data"
-                updateImage = this.state.fileToUpdate
+                updateImage = fileToUpdate
             }
             else
             {
                 content_type = "application/json"
-                updateImage = this.props.inforBook.image
+                updateImage = location.state.image
             }
             try {
                 const response = await axios({
                     method: 'post',
-                    url: config.APP_API_URL,
+                    url: `${config.APP_API_URL}/books`,
                     data: {
-                        id : this.state.id,
-                        name: this.state.name,
-                        author: this.state.author,
-                        description: this.state.description,
+                        id : id,
+                        name: name,
+                        author: author,
+                        description: description,
+                        price: price,
                         image : updateImage
                     },
                     headers: { "Content-Type": content_type }
@@ -63,8 +54,8 @@ class UpdateBook extends Component {
                 const status = response.status
                 if (status === 200)
                 {
-                    alert("Book delete successfull")
-                    this.redirectPage();
+                    alert("Book update successfull")
+                    redirectPage();
                 }
                 else
                 {
@@ -80,66 +71,72 @@ class UpdateBook extends Component {
             alert("The id, name or author not entered")
         }
     }
-    handleDeleteBook = async (e) =>{
-        e.preventDefault();
 
+    const onConfirm = async () => {
         try{
             const response = await axios({
                 method: 'delete',
-                url: `${config.APP_API_URL}/${this.props.inforBook.id}`,
+                url: `${config.APP_API_URL}/books/${id}`,
             })
             const status = response.status
             if (status === 200)
             {
                 alert("Book delete successfull")
-                this.redirectPage();
+                redirectPage();
             }
             else
             {
                 alert("Error Occured while delete the book")
             }
         }
-        catch
+        catch (e)
         {
+            console.log(e)
             alert("Error Occured while delete the book")
         }
-
     }
 
-    render()
-    {
-        return <div className="container p-5 my-5 border ">
+    const onCancel = () => {
+        return;
+    }
+
+    function handleDeleteBook(e){
+        e.preventDefault();
+        window.confirm('Are you sure you wish to delete this item?') ? onConfirm("confirm") : onCancel("cancel")
+    }
+
+    return (
+        <div className="container p-5 my-5 border ">
                 <div className="mb-3">
                     <label for="exampleFormControlInput1" className="form-label">ID</label>
-                    <input type="text" className="form-control" onChange={(e) => this.setState({ id: e.target.value })} value={this.props.inforBook.id} placeholder="ID of book" required></input>
+                    <input type="text" className="form-control" onChange={(e) => setId( e.target.value )} value={id} placeholder="ID of book" required></input>
                 </div>
                 <div className="mb-3">
                     <label for="exampleFormControlInput1" className="form-label">Name</label>
-                    <input type="text" onChange={(e) => this.setState({ name: e.target.value })} defaultValue={this.props.inforBook.name} className="form-control" placeholder="Book name" required></input>
+                    <input type="text" onChange={(e) => setName(e.target.value )}  className="form-control" defaultValue={name}  placeholder="Book name" required></input>
                 </div>
                 <div className="mb-3">
                     <label for="exampleFormControlInput1" className="form-label">Author</label>
-                    <input type="text" onChange={(e) => this.setState({ author: e.target.value })} defaultValue={this.props.inforBook.author} className="form-control" placeholder="Author book"></input>
+                    <input type="text" onChange={(e) => setAuthor(e.target.value)} className="form-control" defaultValue={author}  placeholder="Author book"></input>
+                </div>
+                <div className="mb-3">
+                    <label for="exampleFormControlInput1" className="form-label">Price</label>
+                    <input type="text" onChange={(e) => setPrice(e.target.value )} className="form-control" defaultValue={price}  placeholder="Price book"></input>
                 </div>
                 <div className="mb-3">
                     <label for="exampleFormControlTextarea1" className="form-label">Description</label>
-                    <textarea className="form-control" onChange={(e) => this.setState({ description: e.target.value })} defaultValue={this.props.inforBook.description} rows="3"></textarea>
+                    <textarea className="form-control" onChange={(e) => setDescription(e.target.value)} defaultValue={description} rows="3"></textarea>
                 </div>
                 <div className="mb-3">
                     <label for="exampleFormControlInput1" className="form-label">Select image:</label>
-                    <input className="form-control" type="file" id="img" name="img" accept="image/*" onChange={(e) => this.setState({ fileToUpdate: e.target.files[0] })} ></input>
+                    <input className="form-control" type="file" id="img" name="img" accept="image/*" onChange={(e) => setFileToUpdate(e.target.files[0])} ></input>
                 </div>
                 <div>
-                    <button type="button" className="btn btn-outline-primary" onClick={this.handleUpdateBook} >Update</button>
-                    <button type="button" className="btn btn-outline-danger" onClick={this.handleDeleteBook} >Delete</button>
+                    <button type="button" className="btn btn-outline-primary" onClick={handleUpdateBook} >Update</button>
+                    <button type="button" className="btn btn-outline-danger" onClick={handleDeleteBook} >Delete</button>
                 </div>
-            </div>
-    }
+        </div>
+    )
 }
 
-function WithNavigate(props) {
-    let navigate = useNavigate();
-    return <UpdateBook {...props} navigate={navigate} />
-}
-
-export default WithNavigate;
+export default UpdateBook
