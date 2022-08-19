@@ -1,5 +1,5 @@
 export default {
-    APP_API_URL : "https://t3uevqreh7.execute-api.ap-southeast-1.amazonaws.com/staging",
-    DEFAULT_REGOIN: "ap-southeast-1",
+    APP_API_URL : "https://0jnuru6h49.execute-api.ap-southeast-2.amazonaws.com/staging",
+    DEFAULT_REGION: "ap-southeast-2",
     ADMIN_ACCOUNT: "hanhpth0207@gmail.com"
 };

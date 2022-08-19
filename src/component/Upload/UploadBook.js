@@ -34,12 +34,14 @@ class UploadBook extends Component {
             try{
                 const response = await axios({
                     method: 'post',
-                    url: `${config.APP_API_BOOKS_URL}/books`,
+                    url: `${config.APP_API_URL}/books`,
                     data: {
                         id : this.state.id,
+                        rv_id: 0,
                         name: this.state.bookname,
                         author: this.state.author,
                         price: this.state.price,
+                        category: this.state.category,
                         description: this.state.description,
                         image: this.state.fileToUpload 
                     },

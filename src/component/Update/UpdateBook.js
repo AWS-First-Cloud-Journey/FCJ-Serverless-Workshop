@@ -8,6 +8,7 @@ function UpdateBook(){
     const [id, setId] = React.useState(location.state.id);
     const [name, setName] = React.useState(location.state.name);
     const [author, setAuthor] = React.useState(location.state.author);
+    const [category, setCategory] = React.useState(location.state.category);
     const [price, setPrice] = React.useState(location.state.price);
     const [description, setDescription] = React.useState(location.state.description);
     const [fileToUpdate, setFileToUpdate] = React.useState(undefined)
@@ -43,9 +44,11 @@ function UpdateBook(){
                     url: `${config.APP_API_URL}/books`,
                     data: {
                         id : id,
+                        rv_id: 0,
                         name: name,
                         author: author,
                         description: description,
+                        category: category,
                         price: price,
                         image : updateImage
                     },
@@ -118,6 +121,10 @@ function UpdateBook(){
                 <div className="mb-3">
                     <label for="exampleFormControlInput1" className="form-label">Author</label>
                     <input type="text" onChange={(e) => setAuthor(e.target.value)} className="form-control" defaultValue={author}  placeholder="Author book"></input>
+                </div>
+                <div className="mb-3">
+                    <label for="exampleFormControlInput1" className="form-label">Category</label>
+                    <input type="text" onChange={(e) => setCategory(e.target.value)} className="form-control" defaultValue={category} placeholder="Category"></input>
                 </div>
                 <div className="mb-3">
                     <label for="exampleFormControlInput1" className="form-label">Price</label>
