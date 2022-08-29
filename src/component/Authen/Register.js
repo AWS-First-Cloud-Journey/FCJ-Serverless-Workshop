@@ -115,7 +115,7 @@ function Register(props) {
             {!isRegister && 
             <div className="d-flex justify-content-center">
                 <div className="col-md-7">
-                    <h2>FCJ Book Store</h2>
+                    <h2>FCJ Book Store - Register</h2>
                     <div action="/action_page.php">
                         <div className="mb-3 mt-3">
                         <label for="email">Email:</label>

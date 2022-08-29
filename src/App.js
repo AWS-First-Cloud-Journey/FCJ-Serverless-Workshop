@@ -24,7 +24,7 @@ class App extends Component {
       countItems: 0,
       itemInCard: [],
       isNavbarHidden: false,
-      isAdmin: true,
+      isAdmin: false,
     };
   }
 
