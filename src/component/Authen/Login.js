@@ -36,9 +36,9 @@ function Login(props) {
             if (status === 200)
             {
                 setNavbar(false)
-                if ( email === config.ADMIN_ACCOUNT){
+                //if ( email === config.ADMIN_ACCOUNT){
                     setAdmin(true)
-                }
+                //}
                 redirectPage();
             }
             else
