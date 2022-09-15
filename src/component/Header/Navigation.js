@@ -20,7 +20,7 @@ function Navigation(props) {
                 </button>
                 <div className="collapse navbar-collapse" id="mynavbar">
                     <div className="navbar-nav me-auto">
-                        <NavLink className="nav-item nav-link" to="/" activeclassname="active" >Home</NavLink>
+                        <NavLink className="nav-item nav-link" to="/" activeclassname="active">Home</NavLink>
                         { isAdmin && <NavLink className="nav-item nav-link" to="/upload">Create new book</NavLink>}
                         { isAdmin && <NavLink className="nav-item nav-link" to="/admin">Management</NavLink>}
                         { isAdmin && <NavLink className="nav-item nav-link" to="/order">Orders</NavLink>}
