@@ -57,7 +57,7 @@ function UpdateBook(){
                 const status = response.status
                 if (status === 200)
                 {
-                    setTimeout('', 2000);
+                    setTimeout('', 3000);
                     alert("Book update successfull")
                     redirectPage();
                 }
