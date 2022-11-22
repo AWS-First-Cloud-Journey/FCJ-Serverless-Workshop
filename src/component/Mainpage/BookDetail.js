@@ -13,8 +13,13 @@ function BookDetail(props) {
 
   var comments = book.comments.map((comment) => {
     return (
+<<<<<<< HEAD
       <div className="col-">
         <ul className="list-group list-group-flush">
+=======
+      <div class="col-">
+        <ul class="list-group list-group-flush">
+>>>>>>> ba7a30b2e9e2adebc1ab7c04b9ef00ee2fa6d948
           <div className="col- mb-2">
             {stars.map((_, index) => {
               return (
@@ -35,7 +40,11 @@ function BookDetail(props) {
   return (
     <div className="container pt-5">
       <div className="d-flex justify-content-center mb-5">
+<<<<<<< HEAD
         <div className="col-md-12">
+=======
+        <div class="col-md-12">
+>>>>>>> ba7a30b2e9e2adebc1ab7c04b9ef00ee2fa6d948
           <div className="row">
             <div className="col-md-4">
               <img
@@ -45,7 +54,11 @@ function BookDetail(props) {
               />
             </div>
             <div className="col-md-8">
+<<<<<<< HEAD
               <ul className="list-group list-group-flush">
+=======
+              <ul class="list-group list-group-flush">
+>>>>>>> ba7a30b2e9e2adebc1ab7c04b9ef00ee2fa6d948
                 <h3>{book.name}</h3>
                 <h5>{book.author}</h5>
                 <p>{book.description}</p>
@@ -65,7 +78,11 @@ function BookDetail(props) {
       </div>
 
       <div className="d-flex justify-content-center">
+<<<<<<< HEAD
         <div className="col-md-12">
+=======
+        <div class="col-md-12">
+>>>>>>> ba7a30b2e9e2adebc1ab7c04b9ef00ee2fa6d948
           <h3>Review</h3>
           <hr/>
           {comments}

@@ -51,6 +51,7 @@ class UploadBook extends Component {
                 if (status === 200)
                 {
                     setTimeout('', 4000);
+
                     alert("Book upload successfull")
                     this.redirectPage();
                 }
