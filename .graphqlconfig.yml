@@ -1,0 +1,15 @@
+projects:
+  fcj-book-store:
+    schemaPath: src/graphql/schema.json
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: src/graphql
+        region: ap-southeast-1
+        apiId: uup33ssvgnhgjna656sqg3psyi
+        maxDepth: 2

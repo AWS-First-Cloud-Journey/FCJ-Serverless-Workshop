@@ -7,9 +7,21 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle'
 
 
+// const client = new AWSAppSyncClient({
+//     url: aws_config.aws_appsync_graphqlEndpoint,
+//     cache: new InMemoryCache(),
+//     region: aws_config.aws_appsync_region,
+//     auth: {
+//       type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
+//       jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken()
+//     },
+//     disableOffline: true
+//   });
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <App />
+    <App/>
 );
 
 // If you want to start measuring performance in your app, pass a function

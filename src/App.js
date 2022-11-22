@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ApolloLink } from "apollo-link";
+import aws_config from "./aws-exports";
+import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
+
 import Mainpage from "./component/Mainpage/Mainpage";
 import Navigation from "./component/Header/Navigation";
 import UploadBook from "./component/Upload/UploadBook";
@@ -8,8 +12,13 @@ import Basket from "./component/Basket/Basket";
 import Admin from "./component/Admin/Admin";
 import BookDetail from "./component/Mainpage/BookDetail";
 import Login from "./component/Authen/Login";
+import Logout from "./component/Authen/Logout"
+import Chat from "./component/Chat/Chat";
 import Register from "./component/Authen/Register";
 import OrderInfor from "./component/Admin/OrderInfor";
+import Amplify from "@aws-amplify/core";
+
+Amplify.configure(aws_config);
 
 class App extends Component {
   constructor(props) {
@@ -25,6 +34,8 @@ class App extends Component {
       itemInCard: [],
       isNavbarHidden: false,
       isAdmin: false,
+      isLogin: false,
+      currentUser: {},
     };
   }
 
@@ -60,8 +71,8 @@ class App extends Component {
   };
 
   clearCart = () => {
-    this.setState({itemInCard: []})
-  }
+    this.setState({ itemInCard: [] });
+  };
 
   getUpdateBook = (updateBook) => {
     this.setState({ updateBook: updateBook });
@@ -75,6 +86,15 @@ class App extends Component {
     this.setState({ isAdmin: isAdmin });
   };
 
+  setLogin = (isLogin) => {
+    this.setState({ isLogin: isLogin });
+  };
+
+  setCurrentUser = (currentUser) => {
+    this.setState({ currentUser: currentUser });
+  };
+
+
   render() {
     return (
       <div>
@@ -83,6 +103,7 @@ class App extends Component {
             <Navigation
               itemCount={this.state.itemInCard.length}
               itemAdminLogin={this.state.isAdmin}
+              itemUserLogin={this.state.isLogin}
             ></Navigation>
           )}
           <Routes>
@@ -92,9 +113,18 @@ class App extends Component {
               element={<Mainpage onAdd={this.onAdd} />}
             ></Route>
             <Route path="/upload" element={<UploadBook />}></Route>
-            <Route path="/update" element={this.state.isAdmin ? <UpdateBook /> : null }></Route>
-            <Route path="/admin" element={this.state.isAdmin ? <Admin /> : null}></Route>
-            <Route path="/detail/:name" element={<BookDetail onAdd={this.onAdd}/>}></Route>
+            <Route
+              path="/update"
+              element={this.state.isAdmin ? <UpdateBook /> : null}
+            ></Route>
+            <Route
+              path="/admin"
+              element={this.state.isAdmin ? <Admin /> : null}
+            ></Route>
+            <Route
+              path="/detail/:name"
+              element={<BookDetail onAdd={this.onAdd} />}
+            ></Route>
             <Route
               path="/cart"
               element={
@@ -112,22 +142,54 @@ class App extends Component {
                 <Login
                   setNavbar={this.hiddenNavbar}
                   setAdmin={this.setAdmin}
+                  setLogin={this.setLogin}
+                  setCurrentUser={this.setCurrentUser}
                 />
               }
             ></Route>
             <Route
               path="/register"
+              element={<Register setNavbar={this.hiddenNavbar} />}
+            ></Route>
+            <Route
+              path="/logout"
               element={
-                <Register
-                  setNavbar={this.hiddenNavbar}
+                <Logout
+                  setAdmin={this.setAdmin}
+                  setLogin={this.setLogin}
                 />
               }
             ></Route>
-            <Route path="/order" element={this.state.isAdmin ? <OrderInfor /> : null}></Route>
+            <Route
+              path="/order"
+              element={this.state.isAdmin ? <OrderInfor /> : null}
+            ></Route>
+            <Route
+              path="/chat"
+              element={<Chat currentUser={this.state.currentUser} isAdmin={this.state.isAdmin} />}
+            ></Route>
           </Routes>
         </Router>
       </div>
     );
   }
 }
-export default App;
+
+const url = aws_config.aws_appsync_graphqlEndpoint;
+
+const link = ApolloLink.from([
+   createHttpLink({ uri: url })
+]);
+
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache()
+})
+
+const WithProvider = () => (
+  <ApolloProvider client={client}>
+      <App />
+  </ApolloProvider>
+);
+
+export default WithProvider;

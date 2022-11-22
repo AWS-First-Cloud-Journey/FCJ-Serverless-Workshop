@@ -1,14 +1,18 @@
 import React, {useEffect} from 'react'
 import { NavLink } from 'react-router-dom'
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import TextsmsIcon from '@material-ui/icons/Textsms';
 import Badge from "@material-ui/core/Badge";
 
 function Navigation(props) {
     const [itemCount, setItemCount] = React.useState(0);
     const [isAdmin, setAdmin] = React.useState(false);
+    const [isLogin, setIsLogin] = React.useState(false);
+    const [messageCount, setMessageCount] = React.useState(false);
     useEffect( () => {
         setItemCount(props.itemCount)
         setAdmin(props.itemAdminLogin)
+        setIsLogin(props.itemUserLogin)
     }, [props.itemCount, props.itemAdminLogin])
 
     return (
@@ -25,8 +29,8 @@ function Navigation(props) {
                         { isAdmin && <NavLink className="nav-item nav-link" to="/admin">Management</NavLink>}
                         { isAdmin && <NavLink className="nav-item nav-link" to="/order">Orders</NavLink>}
                     </div>
-                    {isAdmin ?
-                        <NavLink className="nav-item nav-link" to="/change_password">Change password</NavLink>
+                    {isLogin ?
+                        <NavLink className="nav-item nav-link" to="/logout">Logout</NavLink>
                         :
                         <div className="navbar-nav">
                             <NavLink className="nav-link" to="/login">Login</NavLink>
@@ -34,11 +38,18 @@ function Navigation(props) {
                         </div>
                     }               
 
-                    <NavLink className="nav-item" to="/cart">
+                    <NavLink className="nav-item nav-link" to="/cart">
                         <Badge color="secondary" badgeContent={itemCount}>
                             <ShoppingCartIcon />{" "}
                         </Badge>
                     </NavLink>
+                    {isLogin &&
+                        <NavLink className="nav-item nav-link" to="/chat">
+                            <Badge color="secondary" badgeContent={messageCount}>
+                                <TextsmsIcon />{" "}
+                            </Badge>
+                        </NavLink>
+                    }
                 </div>
             </div>
         </nav>      
