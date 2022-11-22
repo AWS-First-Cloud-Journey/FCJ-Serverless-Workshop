@@ -1,0 +1,80 @@
+/* body{margin-top:20px;} */
+
+.chat-online {
+  color: #34ce57
+}
+
+.chat-offline {
+  color: #e4606d
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+.people-list {
+  overflow-y: scroll;
+}
+
+.chat-message-left,
+.chat-message-right {
+  display: flex;
+  flex-shrink: 0
+}
+
+.chat-message-left {
+  margin-right: auto
+}
+
+.chat-message-right {
+  flex-direction: row-reverse;
+  margin-left: auto
+}
+.py-3 {
+  padding-top: 1rem!important;
+  padding-bottom: 1rem!important;
+}
+.px-4 {
+  padding-right: 1.5rem!important;
+  padding-left: 1.5rem!important;
+}
+.flex-grow-0 {
+  flex-grow: 0!important;
+}
+.border-top {
+  border-top: 1px solid #dee2e6!important;
+}
+.people-list li:hover {
+  background: #efefef;
+  cursor: pointer
+}
+
+.people-list li.active {
+  background: #efefef
+}
+
+@media only screen and (max-width: 768px) {
+  .chat-messages {
+      height: 500px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .chat-messages {
+      height: 550px;
+  }
+}
+
+@media only screen and (min-device-width: 992px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
+  .chat-messages {
+      height: 600px;
+  }
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1980px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
+  .chat-messages {
+      height: 650px;
+  }
+}

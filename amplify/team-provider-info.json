@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-fcjbookstore-dev-101523-authRole",
+      "UnauthRoleArn": "arn:aws:iam::885078239936:role/amplify-fcjbookstore-dev-101523-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::885078239936:role/amplify-fcjbookstore-dev-101523-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-fcjbookstore-dev-101523-deployment",
+      "UnauthRoleName": "amplify-fcjbookstore-dev-101523-unauthRole",
+      "StackName": "amplify-fcjbookstore-dev-101523",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:885078239936:stack/amplify-fcjbookstore-dev-101523/1b9545c0-4e93-11ed-aa12-02cd0d97653e",
+      "AmplifyAppId": "d1ehat7082yi7s"
+    },
+    "categories": {
+      "auth": {
+        "fcjbookstore01086c2f": {}
+      }
+    }
+  }
+}

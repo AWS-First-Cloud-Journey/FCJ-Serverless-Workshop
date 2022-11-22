@@ -2,6 +2,11 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect } from 'react'
 import axios from 'axios';
 import config from '../../config'
+import { Auth } from 'aws-amplify';
+import { Hub } from 'aws-amplify';
+import createUser from '../Chat/graphql/mutations/createUser'
+import { ApolloClientService } from "./../../ApolloClientService"
+
 
 function Register(props) {
     const [email, setEmail] = React.useState("")
@@ -10,6 +15,7 @@ function Register(props) {
     const [code, setCode] = React.useState("")
     const [isRegister, setIsRegister] = React.useState(false)
     const {setNavbar} = props
+
     const navigate = useNavigate();
     useEffect(() => {
         setNavbar(true);
@@ -17,6 +23,36 @@ function Register(props) {
 
     const redirectPage = () => {
         navigate('/login');
+    }
+
+    async function signUp(e) {
+        e.preventDefault();
+        const checkResult = checkUserAccountValid()
+        if (!checkResult)
+        {
+            return;
+        }
+        else if (  confirmPassword !== password )
+        {
+            return;
+        }
+
+        try {
+            const { user } = await Auth.signUp({
+                username: email,
+                password,
+                attributes: {
+                    email
+                },
+                autoSignIn: { // optional - enables auto sign in after user is confirmed
+                    enabled: true,
+                }
+            });
+            console.log(user);
+            setIsRegister(true)
+        } catch (error) {
+            console.log('error signing up:', error);
+        }
     }
 
     async function handlerRegister(e){
@@ -79,6 +115,95 @@ function Register(props) {
         }
     }
 
+    function checkUserAccountValid()
+    {
+        const uppercaseRegExp   = /(?=.*?[A-Z])/;
+        const lowercaseRegExp   = /(?=.*?[a-z])/;
+        const digitsRegExp      = /(?=.*?[0-9])/;
+        const minLengthRegExp   = /.{8,}/;
+        const passwordLength =      password.length;
+        const uppercasePassword =   uppercaseRegExp.test(password);
+        const lowercasePassword =   lowercaseRegExp.test(password);
+        const digitsPassword =      digitsRegExp.test(password);
+        const minLengthPassword =   minLengthRegExp.test(password);
+
+        if ( !email || !password){
+            alert('Enter email and password')
+            return false;
+        }
+
+        if(passwordLength===0){
+            alert("Password is empty");
+            return false
+        }else if(!uppercasePassword){
+            alert("At least one Uppercase");
+            return false
+        }else if(!lowercasePassword){
+            alert("At least one Lowercase");
+            return false
+        }else if(!digitsPassword){
+            alert("At least one digit");
+            return false
+        }else if(!minLengthPassword){
+            alert("At least minumum 8 characters");
+            return false
+        }
+
+        return true
+
+    }
+
+    async function confirmSignUp(e) {
+        e.preventDefault();
+        if ( !code || code.length < 6 ){
+            alert('Please enter code again')
+            return;
+        }
+
+        try {
+          await Auth.confirmSignUp(email, code);
+        } catch (error) {
+            console.log('error confirming sign up', error);
+            alert("Verify fail!")
+            return;
+        }
+        Hub.listen('auth', ({ payload }) => {
+            const { event } = payload;
+            if (event === 'autoSignIn') {
+                const user = payload.data;
+                // assign user
+                console.log(user)
+                const client = ApolloClientService()
+                var new_user = {
+                  username: email,
+                  id: user.signInUserSession.idToken.payload["sub"],
+                  cognitoId: user.signInUserSession.idToken.payload["sub"],
+                  registered: true,
+                };
+                client
+                  .mutate({
+                    mutation: createUser,
+                    variables: { username: email },
+                    optimisticResponse: {
+                      createUser: {
+                        ...new_user,
+                        __typename: "User",
+                      },
+                    },
+                  })
+                  .then(
+                    (res) => {
+                      console.log(res);
+                    },
+                    (err) => {
+                      console.log(err);
+                    }
+                  );
+            } 
+        })
+        redirectPage()
+    }
+
     async function handlerVerify(e){
         if ( !code || code.length < 6 ){
             alert('Please enter code again')
@@ -132,7 +257,7 @@ function Register(props) {
                             <input type="password" className="form-control" id="cpwd" placeholder="Enter password" name="pswd"
                                 onChange={(e) => setConfirmPassword( e.target.value )} value={confirmPassword}/>
                         </div>
-                        <button className="btn btn-primary" onClick={handlerRegister}>Register</button>
+                        <button className="btn btn-primary" onClick={signUp}>Register</button>
                     </div>
                 </div>
             </div>}
@@ -149,7 +274,7 @@ function Register(props) {
                             <input type="password" className="form-control" id="pwd" placeholder="Enter password" name="pswd"
                                 onChange={(e) => setCode( e.target.value )} value={code}/>
                         </div>
-                        <button className="btn btn-primary" onClick={handlerVerify}>Submit</button>
+                        <button className="btn btn-primary" onClick={confirmSignUp}>Submit</button>
                     </div>
                 </div>
             </div>
