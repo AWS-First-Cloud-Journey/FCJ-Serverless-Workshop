@@ -177,7 +177,7 @@ function ConversationList(props) {
         >
           <div className="d-flex align-items-start">
             <div className="flex-grow-1 ml-3">
-              Admintrator
+              Administrator
               <div className="small"></div>
             </div>
           </div>

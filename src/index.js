@@ -6,8 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle'
 
-
-<<<<<<< HEAD
 // const client = new AWSAppSyncClient({
 //     url: aws_config.aws_appsync_graphqlEndpoint,
 //     cache: new InMemoryCache(),
@@ -23,11 +21,6 @@ import 'bootstrap/dist/js/bootstrap.bundle'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <App/>
-=======
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-    <App />
->>>>>>> ba7a30b2e9e2adebc1ab7c04b9ef00ee2fa6d948
 );
 
 // If you want to start measuring performance in your app, pass a function
